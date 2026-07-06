@@ -97,13 +97,13 @@ padding-left: 0;
 padding-right: 0;
 }
 .glance-img {
-width: 100%;
+width: 92%;
 border-radius: 0;
 }
 }
 @media (min-width: 992px) {
 .glance-img {
-width: 35%;
+width: 52%;
 }
 }
 
