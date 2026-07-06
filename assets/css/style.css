@@ -88,15 +88,36 @@ font-size: 0.82rem;
 .chevron-step .chevron-head { margin-left: 0; }
 }
 
+.glance-img {
+width: 70%;
+}
+@media (max-width: 767px) {
+.glance-section {
+padding-left: 0;
+padding-right: 0;
+}
+.glance-img {
+width: 100%;
+border-radius: 0;
+}
+}
+@media (min-width: 992px) {
+.glance-img {
+width: 35%;
+}
+}
+
 .team-card {
-transition: transform 0.2s ease, box-shadow 0.2s ease;
+transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .team-card:hover {
-transform: translateY(-6px);
-box-shadow: 0 1rem 2rem rgba(16, 42, 67, 0.15) !important;
+transform: translateY(-10px) scale(1.05);
+box-shadow: 0 1.5rem 3rem rgba(16, 42, 67, 0.25) !important;
+z-index: 2;
+position: relative;
 }
 .team-card:hover img {
-box-shadow: 0 0 0 4px rgba(0, 179, 179, 0.25);
+box-shadow: 0 0 0 4px rgba(0, 179, 179, 0.35);
 }
 
 .reveal {
