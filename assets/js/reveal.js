@@ -48,15 +48,28 @@ items.forEach(reveal);
 words.forEach(reveal);
 return;
 }
-var observer = new IntersectionObserver(function (entries) {
+function makeObserver(threshold, rootMargin) {
+var obs = new IntersectionObserver(function (entries) {
 entries.forEach(function (entry) {
 if (entry.isIntersecting) {
 reveal(entry.target);
-observer.unobserve(entry.target);
+obs.unobserve(entry.target);
 }
 });
-}, { threshold: 0.5, rootMargin: '0px 0px -40px 0px' });
-items.forEach(function (item) { observer.observe(item); });
+}, { threshold: threshold, rootMargin: rootMargin });
+return obs;
+}
+
+var earlyItems = items.filter(function (item) { return item.dataset.threshold; });
+var defaultItems = items.filter(function (item) { return !item.dataset.threshold; });
+
+var observer = makeObserver(0.5, '0px 0px -40px 0px');
+defaultItems.forEach(function (item) { observer.observe(item); });
+
+earlyItems.forEach(function (item) {
+var earlyObserver = makeObserver(parseFloat(item.dataset.threshold), '0px 0px 60px 0px');
+earlyObserver.observe(item);
+});
 
 var wordObserver = new IntersectionObserver(function (entries) {
 entries.forEach(function (entry) {
