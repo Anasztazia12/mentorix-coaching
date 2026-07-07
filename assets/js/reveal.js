@@ -7,9 +7,10 @@ var group = item.closest('.row, .chevron-row') || item.parentElement || document
 if (!groups.has(group)) groups.set(group, []);
 groups.get(group).push(item);
 });
-groups.forEach(function (groupItems) {
+groups.forEach(function (groupItems, group) {
+var step = parseFloat(group.dataset && group.dataset.stagger) || 0.25;
 groupItems.forEach(function (item, index) {
-item.style.transitionDelay = (index * 0.25) + 's';
+item.style.transitionDelay = (index * step) + 's';
 });
 });
 
