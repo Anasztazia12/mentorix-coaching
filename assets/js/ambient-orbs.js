@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       var minSpan = Math.min(width, height);
-      var count = Math.max(4, Math.min(8, Math.round((width * height) / 55000)));
+      var count = Math.max(3, Math.min(5, Math.round((width * height) / 90000)));
       orbs = [];
       for (var i = 0; i < count; i++) {
-        var r = minSpan * (0.16 + Math.random() * 0.12);
+        var r = minSpan * (0.09 + Math.random() * 0.08);
         orbs.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -83,16 +83,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // gentle breathing pulse for a calm, "alive" feel
         o.r = o.baseR * (1 + Math.sin(t + o.phase) * 0.06);
+      }
 
-        var gradient = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        gradient.addColorStop(0, 'rgba(' + o.c + ',0.16)');
-        gradient.addColorStop(0.6, 'rgba(' + o.c + ',0.07)');
-        gradient.addColorStop(1, 'rgba(' + o.c + ',0)');
+      // faint threads between orbs that drift close to each other
+      ctx.lineWidth = 1;
+      for (var a = 0; a < orbs.length; a++) {
+        for (var b = a + 1; b < orbs.length; b++) {
+          var oa = orbs[a], ob = orbs[b];
+          var ldx = oa.x - ob.x, ldy = oa.y - ob.y;
+          var ldist = Math.sqrt(ldx * ldx + ldy * ldy);
+          var threshold = oa.r + ob.r + 90;
+          if (ldist < threshold) {
+            var strength = (1 - ldist / threshold) * 0.12;
+            var lineGrad = ctx.createLinearGradient(oa.x, oa.y, ob.x, ob.y);
+            lineGrad.addColorStop(0, 'rgba(' + oa.c + ',' + strength + ')');
+            lineGrad.addColorStop(1, 'rgba(' + ob.c + ',' + strength + ')');
+            ctx.strokeStyle = lineGrad;
+            ctx.beginPath();
+            ctx.moveTo(oa.x, oa.y);
+            ctx.lineTo(ob.x, ob.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // soft, additive glow so overlapping orbs blend into one another
+      ctx.globalCompositeOperation = 'lighter';
+      for (var k = 0; k < orbs.length; k++) {
+        var ok = orbs[k];
+        var gradient = ctx.createRadialGradient(ok.x, ok.y, 0, ok.x, ok.y, ok.r);
+        gradient.addColorStop(0, 'rgba(' + ok.c + ',0.16)');
+        gradient.addColorStop(0.6, 'rgba(' + ok.c + ',0.07)');
+        gradient.addColorStop(1, 'rgba(' + ok.c + ',0)');
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.arc(ok.x, ok.y, ok.r, 0, Math.PI * 2);
         ctx.fill();
       }
+      ctx.globalCompositeOperation = 'source-over';
 
       frameId = requestAnimationFrame(step);
     }
