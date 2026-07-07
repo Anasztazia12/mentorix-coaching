@@ -90,5 +90,5 @@ setTimeout(function () {
 items.concat(words).forEach(function (el) {
 if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
 });
-}, 4000);
+}, 1200);
 });
