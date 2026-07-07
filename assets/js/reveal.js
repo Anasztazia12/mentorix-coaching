@@ -9,7 +9,7 @@ groups.get(group).push(item);
 });
 groups.forEach(function (groupItems) {
 groupItems.forEach(function (item, index) {
-item.style.transitionDelay = (index * 0.1) + 's';
+item.style.transitionDelay = (index * 0.25) + 's';
 });
 });
 
