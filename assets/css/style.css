@@ -162,6 +162,11 @@ transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier
 opacity: 1;
 transform: scale(1);
 }
+.brand-word {
+font-weight: 900;
+font-size: 1.1em;
+letter-spacing: 0.01em;
+}
 @media (prefers-reduced-motion: reduce) {
 .reveal, .reveal-left, .word-reveal, .word-pop {
 opacity: 1;

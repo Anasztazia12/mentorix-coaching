@@ -26,15 +26,31 @@ word.style.transitionDelay = (index * 0.3) + 's';
 });
 });
 
+function reveal(el) {
+// For elements already in view on page load (e.g. the hero heading),
+// the browser can batch the hidden starting state and the visible
+// state into the same first paint if we flip the class too soon,
+// so the transition never plays. A macrotask (setTimeout) plus a
+// double rAF guarantees at least one real paint of the hidden state
+// happens first.
+setTimeout(function () {
+requestAnimationFrame(function () {
+requestAnimationFrame(function () {
+el.classList.add('is-visible');
+});
+});
+}, 50);
+}
+
 if (!('IntersectionObserver' in window)) {
-items.forEach(function (item) { item.classList.add('is-visible'); });
-words.forEach(function (word) { word.classList.add('is-visible'); });
+items.forEach(reveal);
+words.forEach(reveal);
 return;
 }
 var observer = new IntersectionObserver(function (entries) {
 entries.forEach(function (entry) {
 if (entry.isIntersecting) {
-entry.target.classList.add('is-visible');
+reveal(entry.target);
 observer.unobserve(entry.target);
 }
 });
@@ -44,7 +60,7 @@ items.forEach(function (item) { observer.observe(item); });
 var wordObserver = new IntersectionObserver(function (entries) {
 entries.forEach(function (entry) {
 if (entry.isIntersecting) {
-entry.target.classList.add('is-visible');
+reveal(entry.target);
 wordObserver.unobserve(entry.target);
 }
 });
