@@ -1,5 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
-var items = document.querySelectorAll('.reveal');
+var items = Array.prototype.slice.call(document.querySelectorAll('.reveal, .reveal-left'));
+
+var groups = new Map();
+items.forEach(function (item) {
+var group = item.closest('.row, .chevron-row') || item.parentElement || document.body;
+if (!groups.has(group)) groups.set(group, []);
+groups.get(group).push(item);
+});
+groups.forEach(function (groupItems) {
+groupItems.forEach(function (item, index) {
+item.style.transitionDelay = (index * 0.1) + 's';
+});
+});
+
 if (!('IntersectionObserver' in window)) {
 items.forEach(function (item) { item.classList.add('is-visible'); });
 return;
