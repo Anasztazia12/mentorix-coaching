@@ -163,10 +163,10 @@ display: inline-block;
 opacity: 0;
 transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.word-reveal[data-dir="left"] { transform: translateX(-80px); }
-.word-reveal[data-dir="right"] { transform: translateX(80px); }
-.word-reveal[data-dir="up"] { transform: translateY(-50px); }
-.word-reveal[data-dir="down"] { transform: translateY(50px); }
+.word-reveal[data-dir="left"] { transform: translateX(-50px); }
+.word-reveal[data-dir="right"] { transform: translateX(50px); }
+.word-reveal[data-dir="up"] { transform: translateY(-22px); }
+.word-reveal[data-dir="down"] { transform: translateY(22px); }
 .word-reveal.is-visible {
 opacity: 1;
 transform: translate(0, 0);

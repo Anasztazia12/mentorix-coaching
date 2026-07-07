@@ -80,4 +80,15 @@ wordObserver.unobserve(entry.target);
 });
 }, { threshold: 0.3 });
 words.forEach(function (word) { wordObserver.observe(word); });
+
+// Safety net: on some mobile browsers the viewport isn't settled yet
+// (address bar animating, layout still shifting) when these observers
+// are set up, so an above-the-fold element can occasionally miss its
+// intersection check and stay stuck invisible. Force everything visible
+// after a few seconds as a fallback.
+setTimeout(function () {
+items.concat(words).forEach(function (el) {
+if (!el.classList.contains('is-visible')) el.classList.add('is-visible');
+});
+}, 4000);
 });
