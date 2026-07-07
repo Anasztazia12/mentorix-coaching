@@ -62,18 +62,25 @@ document.addEventListener('DOMContentLoaded', function () {
         if (mouse.active) {
           var dx = o.x - mouse.x, dy = o.y - mouse.y;
           var dist = Math.sqrt(dx * dx + dy * dy);
-          var influence = o.r + 160;
+          var influence = o.r + 260;
           if (dist < influence && dist > 0.1) {
-            var push = (1 - dist / influence) * 0.035;
+            var push = (1 - dist / influence) * 0.16;
             o.vx += (dx / dist) * push;
             o.vy += (dy / dist) * push;
           }
         }
 
+        var speed = Math.sqrt(o.vx * o.vx + o.vy * o.vy);
+        var maxSpeed = 2.2;
+        if (speed > maxSpeed) {
+          o.vx = (o.vx / speed) * maxSpeed;
+          o.vy = (o.vy / speed) * maxSpeed;
+        }
+
         o.x += o.vx;
         o.y += o.vy;
-        o.vx *= 0.965;
-        o.vy *= 0.965;
+        o.vx *= 0.94;
+        o.vy *= 0.94;
 
         var margin = o.r * 0.6;
         if (o.x < -margin) o.x = width + margin;
