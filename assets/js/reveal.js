@@ -13,8 +13,22 @@ item.style.transitionDelay = (index * 0.25) + 's';
 });
 });
 
+var words = Array.prototype.slice.call(document.querySelectorAll('.word-reveal, .word-pop'));
+var wordGroups = new Map();
+words.forEach(function (word) {
+var group = word.closest('h1, h2, h3') || word.parentElement || document.body;
+if (!wordGroups.has(group)) wordGroups.set(group, []);
+wordGroups.get(group).push(word);
+});
+wordGroups.forEach(function (groupWords) {
+groupWords.forEach(function (word, index) {
+word.style.transitionDelay = (index * 0.3) + 's';
+});
+});
+
 if (!('IntersectionObserver' in window)) {
 items.forEach(function (item) { item.classList.add('is-visible'); });
+words.forEach(function (word) { word.classList.add('is-visible'); });
 return;
 }
 var observer = new IntersectionObserver(function (entries) {
@@ -26,4 +40,14 @@ observer.unobserve(entry.target);
 });
 }, { threshold: 0.5, rootMargin: '0px 0px -40px 0px' });
 items.forEach(function (item) { observer.observe(item); });
+
+var wordObserver = new IntersectionObserver(function (entries) {
+entries.forEach(function (entry) {
+if (entry.isIntersecting) {
+entry.target.classList.add('is-visible');
+wordObserver.unobserve(entry.target);
+}
+});
+}, { threshold: 0.3 });
+words.forEach(function (word) { wordObserver.observe(word); });
 });
