@@ -144,9 +144,9 @@ transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-be
 opacity: 1;
 transform: translateY(0) scale(1);
 }
-.team-card.reveal {
-transform: translateY(24px) scale(0.98);
-transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1), transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+.team-row.reveal {
+transform: translateY(15px);
+transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .reveal-left {
