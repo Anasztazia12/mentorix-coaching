@@ -151,7 +151,7 @@ transition: opacity 0.6s ease, transform 0.6s ease;
 
 .reveal-left {
 opacity: 0;
-transform: translateX(-50px);
+transform: translateX(-20px);
 transition: opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1), transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-left.is-visible {
